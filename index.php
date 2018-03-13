@@ -21,12 +21,10 @@
   <div id="map" style="margin-top:10px"></div>
   <input type="button" value="Refresh location" onclick="initMap()">
   <script>
-    var callCount = 0;
-    $( document ).ready(function() {
-      initMap();
-    });
-
-     // setInterval(
+      $(window).on('load', function(){ 
+          initMap();
+        });
+      
      function initMap() {
       $(document).ready(function() {
         var valores = $.ajax({type: "GET", url: "iss_data.php", async: false}).responseText;
@@ -43,10 +41,8 @@
           map: map
         });
       });
-      console.log(callCount);
 
     }
-   // ,5000);
 
 
  </script>
