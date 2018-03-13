@@ -18,16 +18,34 @@
   <input id="latitude" type="text" disabled></div>
   <label for="longitude">Longitude</label>
   <input id="longitude" type="text" disabled></div>
+  <div id="loading"></div>
   <div id="map" style="margin-top:10px"></div>
-  <input type="button" value="Refresh location" onclick="initMap()">
   <script>
+
+    var calledMap = false;
       $(window).on('load', function(){ 
           initMap();
+          calledMap = true;
+
+          if (calledMap){
+            setInterval(function(){
+              initMap();
+            },5000);
+          }
         });
       
      function initMap() {
       $(document).ready(function() {
-        var valores = $.ajax({type: "GET", url: "iss_data.php", async: false}).responseText;
+        var valores = $.ajax({
+          type: "GET", 
+          url: "iss_data.php", 
+          beforeSend: function() {
+            $('#loading').text('Cargando...');
+          },
+          complete: function() {
+            $('#loading').text('');
+          },
+          async: false}).responseText;
         var location = valores.split(',');
         var la = location[0];
         var lo = location[1];
@@ -43,7 +61,6 @@
       });
 
     }
-
 
  </script>
 
